@@ -1,0 +1,63 @@
+services:
+  pgserver:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: minha_api
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pistola
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  cassandra:
+    image: cassandra:4.1
+    ports:
+      - "9042:9042"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=meu-cluster
+      - CASSANDRA_DC=dc1
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+    healthcheck:
+      test: ["CMD", "cqlsh", "-e", "describe keyspaces"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+
+  api:
+    build:
+      context: ./api
+      dockerfile: dockerfile
+    volumes:
+      - ./api:/app
+      - m2_cache:/root/.m2
+    ports:
+      - "3333:3333"
+    environment:
+      DATABASE_URL: "jdbc:postgresql://pgserver:5432/minha_api?user=postgres&password=pistola"
+    depends_on:
+      - pgserver
+    tty: true
+    stdin_open: true
+
+  front:
+    build:
+      context: ./front
+      dockerfile: dockerfile
+    environment:
+    - SHADOW_CLJS_DEVTOOLS_CONFIG="{:fs-watch/force-poll true}"
+    volumes:
+      - ./front:/app
+      - node_modules_vol:/app/node_modules
+    ports:
+      - "8280:8280"
+      - "9630:9630"
+    tty: true
+    stdin_open: true
+
+volumes:
+  pg_data:
+  m2_cache:
+  node_modules_vol:
+  cassandra_data:

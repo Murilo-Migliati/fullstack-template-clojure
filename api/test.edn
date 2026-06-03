@@ -1,0 +1,5 @@
+#kaocha/v1
+ {:kaocha/reporter [kaocha.report/dots] ;; Estilo de progresso
+  :kaocha/color? true                   ;; Força a cor que o Ubuntu já aceitou
+  :kaocha/diff-engine :native           ;; Usa a diff do Clojure que o Humane melhora
+  :kaocha/capture-output? false}        ;; Não esconde o que o Humane imprime

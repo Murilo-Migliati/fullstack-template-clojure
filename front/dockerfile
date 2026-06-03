@@ -1,0 +1,11 @@
+FROM node:18-alpine
+
+RUN apk add --no-cache openjdk21 bash curl
+
+RUN curl -L -O https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh \
+    && chmod +x linux-install.sh \
+    && ./linux-install.sh
+
+WORKDIR /app
+EXPOSE 8280 9630
+CMD ["tail", "-f", "/dev/null"]

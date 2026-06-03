@@ -1,0 +1,23 @@
+# Alterando a imagem base para uma versão baseada em Ubuntu/Debian
+FROM clojure:lein-2.10.0
+
+# O Ubuntu usa apt-get ao invés de apk
+# Instalando bash (já costuma vir, mas garantimos), curl e build-essential se precisar de algo nativo
+RUN apt-get update && apt-get install -y \
+    bash \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV TERM=xterm-256color
+ENV LEIN_COLOR=always
+
+    WORKDIR /app
+
+# Otimização de cache para dependências
+COPY project.clj /app/
+RUN lein deps
+
+EXPOSE 3333
+
+# Mantendo o container rodando
+CMD ["tail", "-f", "/dev/null"]
