@@ -1,10 +1,16 @@
-resources/public/js/** linguist-vendored
-target/** linguist-vendored
-out/** linguist-vendored
-.shadow-cljs/** linguist-vendored
-.cpcache/** linguist-vendored
+# Ignorar QUALQUER pasta de cache do Clojure/LSP/Kondo em qualquer nível
+**/.clj-kondo/** linguist-vendored
+**/.lsp/** linguist-vendored
+**/.cpcache/** linguist-vendored
 
-# Garantir que o GitHub detecte os arquivos Clojure
+# Ignorar QUALQUER arquivo JavaScript compilado ou dependência de node em qualquer subpasta
+**/node_modules/** linguist-vendored
+**/target/** linguist-vendored
+**/out/** linguist-vendored
+**/.shadow-cljs/** linguist-vendored
+**/public/js/** linguist-vendored
+
+# Forçar a detecção correta das extensões Clojure
 *.clj linguist-detectable=true
 *.cljs linguist-detectable=true
 *.cljc linguist-detectable=true
