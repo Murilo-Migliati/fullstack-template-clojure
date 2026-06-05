@@ -1,0 +1,11 @@
+resources/public/js/** linguist-vendored
+target/** linguist-vendored
+out/** linguist-vendored
+.shadow-cljs/** linguist-vendored
+.cpcache/** linguist-vendored
+
+# Garantir que o GitHub detecte os arquivos Clojure
+*.clj linguist-detectable=true
+*.cljs linguist-detectable=true
+*.cljc linguist-detectable=true
+*.edn linguist-detectable=true
